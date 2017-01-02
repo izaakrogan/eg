@@ -3,7 +3,6 @@ defmodule Eg.Job do
   import Ecto.Changeset
   alias Eg.Job
 
-
   schema "jobs" do
     field :apply, :string
     field :company, :string
@@ -15,6 +14,7 @@ defmodule Eg.Job do
     field :twitter, :string
     field :type, :string
     field :url, :string
+    belongs_to :user, Eg.User
 
     timestamps()
   end
