@@ -24,4 +24,5 @@
   <%= link to: jobs_path(@conn, :new), class: "btn-floating btn-large red" do %>
     <i class="material-icons">add</i>
   <% end %>
+  <div id="hello-react"></div>
 </div>
