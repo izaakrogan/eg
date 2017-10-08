@@ -19,6 +19,31 @@ defmodule EgWeb.Router do
     get "/", PageController, :index
     get "/hello", HelloController, :index
     get "/hello/:messenger", HelloController, :show
+
+    resources "/users", UserController
+
+    # Resources produces the following:
+
+    # user_path  GET     /users             EgWeb.UserController :index
+    # user_path  GET     /users/:id/edit    EgWeb.UserController :edit
+    # user_path  GET     /users/new         EgWeb.UserController :new
+    # user_path  GET     /users/:id         EgWeb.UserController :show
+    # user_path  POST    /users             EgWeb.UserController :create
+    # user_path  PATCH   /users/:id         EgWeb.UserController :update
+    #            PUT     /users/:id         EgWeb.UserController :update
+    # user_path  DELETE  /users/:id         EgWeb.UserController :delete
+
+    # to generate only some of the available restful routes, use 'only'
+    resources "/posts", PostController, only: [:index, :show]
+
+    # post_path  GET     /posts             EgWeb.PostController :index
+    # post_path  GET     /posts/:id         EgWeb.PostController :show
+
+    # to exclude some of the available restful routes, use 'except'
+    resources "/comments", CommentController, except: [:index, :edit, :new, :delete, :update]
+
+    # comment_path  GET     /comments/:id      EgWeb.CommentController :show
+    # comment_path  POST    /comments          EgWeb.CommentController :create
   end
 
   # Other scopes may use custom stacks.
