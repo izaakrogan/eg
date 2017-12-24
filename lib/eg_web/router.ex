@@ -50,4 +50,18 @@ defmodule EgWeb.Router do
   # scope "/api", EgWeb do
   #   pipe_through :api
   # end
+
+
+  # The Phoenix.Router.forward/4 macro can be used to send all requests that start
+  # with a particular path to a particular plug. Let’s say we have a part of our
+  # system that is responsible (it could even be a separate application or library)
+  #  for running jobs in the background, it could have its own web interface for
+  #  checking the status of the jobs. We can forward to this admin interface using:
+  forward "/jobs", BackgroundJob.Plug
+
+  scope "/" do
+    pipe_through [:authenticate_user, :ensure_admin]
+    forward "/jobs", BackgroundJob.Plug
+  end
+
 end
