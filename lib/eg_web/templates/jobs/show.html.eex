@@ -1,0 +1,15 @@
+<div class="jumbotron">
+  <h4><%= @job.title %> / <%= @job.type %></h4>
+  <div class="section-flex">
+  <%= if @job.rate do %>
+    <p>£<%= @job.rate %>/day</p>
+  <% end %>
+  <p><%= @job.location %></p>
+  </div>
+  <p>Company: <%= @job.company %></p>
+  <p><%= @job.description %></p>
+  <p>Email: <%= @job.email %></p>
+  <p>Website: <%= @job.url %></p>
+  <p>Twitter: <%= @job.twitter %></p>
+  <p><%= @job.apply %></p>
+</div>

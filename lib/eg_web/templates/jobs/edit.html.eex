@@ -1,0 +1,16 @@
+<%= form_for @changeset, jobs_path(@conn, :update, @job), fn f -> %>
+  <div class="form-group">
+    <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+    <%= text_input f, :type, placeholder: "Job type", class: "form-control" %>
+    <%= text_input f, :rate, placeholder: "Day rate", class: "form-control" %>
+    <%= text_input f, :location, placeholder: "Location", class: "form-control" %>
+    <%= text_input f, :description, placeholder: "Description", class: "form-control" %>
+    <%= text_input f, :company, placeholder: "Company name", class: "form-control" %>
+    <%= text_input f, :url, placeholder: "Company url", class: "form-control" %>
+    <%= text_input f, :twitter, placeholder: "Company Twitter", class: "form-control" %>
+    <%= text_input f, :email, placeholder: "Company email", class: "form-control" %>
+    <%= text_input f, :apply, placeholder: "How to apply", class: "form-control" %>
+    <%= error_tag f, :title %>
+  </div>
+  <%= submit "Save Job", class: "btn btn-primary" %>
+<% end %>

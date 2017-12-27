@@ -1,0 +1,27 @@
+<ul class="collection">
+  <%= for job <- @jobs do %>
+    <li class="collection-item">
+      <div class="section-flex">
+        <div>
+          <%= link job.title, to: jobs_path(@conn, :show, job) %>
+          <p><%= job.company %></p>
+        </div>
+        <div class="">
+          <%= link "Edit", to: jobs_path(@conn, :edit, job) %>
+          <%= link "Delete", to: jobs_path(@conn, :delete, job), method: :delete %>
+        </div>
+      </div>
+      <p><%= job.description %></p>
+      <div class="section-flex">
+        <p><%= job.location %></p>
+        <p>£<%= job.rate %>/day</p>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<div class="fixed-action-btn">
+  <%= link to: jobs_path(@conn, :new), class: "btn-floating btn-large red" do %>
+    <i class="material-icons">add</i>
+  <% end %>
+</div>
