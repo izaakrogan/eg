@@ -7,6 +7,7 @@ defmodule EgWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug EgWeb.Plugs.SetUser
   end
 
   pipeline :api do
@@ -18,7 +19,7 @@ defmodule EgWeb.Router do
 
     # get "/", PageController, :index
     resources "/", JobsController
-    
+
     # jobs_path  GET     /                         EgWeb.JobsController :index
     # jobs_path  GET     /:id/edit                 EgWeb.JobsController :edit
     # jobs_path  GET     /new                      EgWeb.JobsController :new
@@ -32,7 +33,9 @@ defmodule EgWeb.Router do
   scope "/auth", EgWeb do
     pipe_through :browser
 
-    get "/github", AuthController, :request
+    get "/signout", AuthController, :signout
+    # request is defined by Ueberauth
+    get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
   end
 
