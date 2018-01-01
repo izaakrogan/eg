@@ -4,6 +4,9 @@ defmodule EgWeb.JobsController do
   alias Eg.Job
   alias Eg.Repo
 
+  plug EgWeb.Plugs.RequireAuth when action in [:new, :create, :edit, :update, :delete]
+  plug :check_job_owner when action in [:update, :edit, :delete]
+
   def index(conn, _params) do
     jobs = Repo.all(Job)
     render conn, "index.html", jobs: jobs
@@ -20,11 +23,12 @@ defmodule EgWeb.JobsController do
   end
 
   def create(conn, %{"job" => job}) do
-    IO.puts("hello")
-    changeset = Job.changeset(%Job{}, job)
+    changeset = conn.assigns.user
+      |> Ecto.build_assoc(:jobs)
+      |> Job.changeset(job)
 
     case Repo.insert(changeset) do
-      {:ok, _topic} ->
+      {:ok, _job} ->
         conn
         |> put_flash(:info, "Job Created")
         |> redirect(to: jobs_path(conn, :index))
@@ -59,5 +63,18 @@ defmodule EgWeb.JobsController do
     conn
     |> put_flash(:info, "Job Deleted")
     |> redirect(to: jobs_path(conn, :index))
+  end
+
+  def check_job_owner(conn, _params) do
+    %{params: %{"id" => job_id}} = conn
+
+    if Repo.get(Job, job_id).user_id == conn.assigns.user.id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You cannot edit that")
+      |> redirect(to: jobs_path(conn, :index))
+      |> halt()
+    end
   end
 end
